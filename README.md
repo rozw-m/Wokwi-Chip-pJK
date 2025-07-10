@@ -10,7 +10,7 @@ Simulates a positive edge-triggered JK flipflop chip.
 To use this chip in your project, include it as a dependency in your `diagram.json` file:
 
 ```json
-"dependencies": { "chip-pJK": "github:rozw-m/Wokwi-Chip-pJK@2.0.0" }
+"dependencies": { "chip-pJK": "github:rozw-m/Wokwi-Chip-pJK@2.0.1" }
 ```
 
 Then, add the chip to your circuit by adding a `chip-scope` item to the `parts` section of `diagram.json`:
