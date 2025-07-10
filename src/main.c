@@ -44,8 +44,10 @@ void chip_init() {
   chip->pin_clk = pin_init("clk", INPUT);
   chip->pin_q = pin_init("Q", OUTPUT);
   chip->pin_qbar = pin_init("Q_bar", OUTPUT);
-  chip->val_q = HIGH;
-  chip->val_qbar = LOW;
+  chip->val_q = LOW;
+  chip->val_qbar = HIGH;
+  pin_write(chip->pin_q, chip->val_q);
+  pin_write(chip->pin_qbar, chip->val_qbar);
   const pin_watch_config_t watch_config = {
     .edge = RISING,
     .pin_change = chip_pin_change,
