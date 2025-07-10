@@ -42,8 +42,8 @@ void chip_init() {
   chip->pin_j = pin_init("J", INPUT);
   chip->pin_k = pin_init("K", INPUT);
   chip->pin_clk = pin_init("clk", INPUT);
-  chip->pin_q = pin_init("Q", OUTPUT);
-  chip->pin_qbar = pin_init("Q_bar", OUTPUT);
+  chip->pin_q = pin_init("Q", OUTPUT_LOW);
+  chip->pin_qbar = pin_init("Q_bar", OUTPUT_HIGH);
   chip->val_q = LOW;
   chip->val_qbar = HIGH;
   pin_write(chip->pin_q, chip->val_q);
