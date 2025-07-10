@@ -3,6 +3,7 @@
 Simulates a positive edge-triggered JK flipflop chip.
 
 3 inputs: J, clk, K
+
 2 outputs: Q and Q_bar (not Q)
 
 ## Usage
