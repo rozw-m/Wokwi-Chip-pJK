@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "name": "PositiveEdge-JK-FF",
+  "author": "Roz Wyatt-Millington",
+  "pins": [
+    "J",
+    "clk",
+    "K",
+    "Q_bar",
+    "",
+    "Q"
+  ],
+  "controls": []
+}
