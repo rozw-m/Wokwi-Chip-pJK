@@ -12,28 +12,28 @@ module wokwi (
     input K,
     input clk
   );
-initial Q = 1'b1;
-initial Q_bar =1'b0;
-
-always @(posedge clk) begin
-    case ({J, K})
-        2'b00: begin // No change
-            Q <= Q;
-            Q_bar <= Q_bar;
-        end
-        2'b01: begin // Reset
-            Q <= 1'b0;
-            Q_bar <= 1'b1;
-        end
-        2'b10: begin // Set
-            Q <= 1'b1;
-            Q_bar <= 1'b0;
-        end
-        2'b11: begin // Toggle
-            Q <= ~Q;
-            Q_bar <= ~Q_bar;
-        end
-    endcase
-end
+    initial Q = 1'b1;
+    initial Q_bar =1'b0;
+    
+    always @(posedge clk) begin
+        case ({J, K})
+            2'b00: begin // No change
+                Q <= Q;
+                Q_bar <= Q_bar;
+            end
+            2'b01: begin // Reset
+                Q <= 1'b0;
+                Q_bar <= 1'b1;
+            end
+            2'b10: begin // Set
+                Q <= 1'b1;
+                Q_bar <= 1'b0;
+            end
+            2'b11: begin // Toggle
+                Q <= ~Q;
+                Q_bar <= ~Q_bar;
+            end
+        endcase
+    end
 
 endmodule
