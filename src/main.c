@@ -1,4 +1,5 @@
 #include "wokwi-api.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 typedef struct {
@@ -7,34 +8,33 @@ typedef struct {
   pin_t pin_clk;
   pin_t pin_q;
   pin_t pin_qbar;
-  uint32_t val_q;
-  uint32_t val_qbar;
+  uint32_t attr_id;
+  bool val_q;
 } chip_state_t;
 
-static void update_output(chip_state_t *chip) {
-  uint32_t j = pin_read(chip->pin_j);
-  uint32_t k = pin_read(chip->pin_k);
-  if (j == HIGH && k == LOW) {
-    chip->val_q = HIGH;
-    chip->val_qbar = LOW;
-  } else if (j == LOW && k == HIGH) {
-    chip->val_q = LOW;
-    chip->val_qbar = HIGH;
-  } else if (j == HIGH && k == HIGH) {
-    if (chip->val_q == HIGH) {
-      chip->val_q = LOW;
-      chip->val_qbar = HIGH;
-    } else {
-      chip->val_q = HIGH;
-      chip->val_qbar = LOW;
-    }
-  }
-  pin_write(chip->pin_q, chip->val_q);
-  pin_write(chip->pin_qbar, chip->val_qbar);
-}
-
 void chip_pin_change(void *user_data, pin_t pin, uint32_t value) {
-  update_output(user_data); 
+  chip_state_t *chip = (chip_state_t*)user_data;
+  uint8_t j = pin_read(chip->pin_j);
+  uint8_t k = pin_read(chip->pin_k);
+  uint8_t id = attr_read(chip->attr_id);
+  if (j == LOW && k == HIGH) {
+    chip->val_q = false;
+    pin_write(chip->pin_q, (uint32_t)chip->val_q);
+    pin_write(chip->pin_qbar, (uint32_t)!chip->val_q);
+  } else if (j == HIGH && k == LOW) {
+    chip->val_q = true;
+    pin_write(chip->pin_q, (uint32_t)chip->val_q);
+    pin_write(chip->pin_qbar, (uint32_t)!chip->val_q);
+  } else if (j == HIGH && k == HIGH) {
+    chip->val_q = !chip->val_q;
+    pin_write(chip->pin_q, (uint32_t)!chip->val_q);
+    pin_write(chip->pin_qbar, (uint32_t)chip->val_q);
+  } else {
+    chip->val_q = chip->val_q;
+    pin_write(chip->pin_q, (uint32_t)chip->val_q);
+    pin_write(chip->pin_qbar, (uint32_t)!chip->val_q);
+  }
+  //printf("Chip %d: Q= %d, J = %d, K=%d\n",id, pin_read(chip->pin_q), j, k);
 }
 
 void chip_init() {
@@ -44,8 +44,8 @@ void chip_init() {
   chip->pin_clk = pin_init("clk", INPUT);
   chip->pin_q = pin_init("Q", OUTPUT_LOW);
   chip->pin_qbar = pin_init("Q_bar", OUTPUT_HIGH);
-  chip->val_q = LOW;
-  chip->val_qbar = HIGH;
+  chip->val_q = false;
+  chip->attr_id = attr_init("id", 1);
   const pin_watch_config_t watch_config = {
     .edge = RISING,
     .pin_change = chip_pin_change,
