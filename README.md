@@ -24,4 +24,4 @@ Then, add the chip to your circuit by adding a `chip-scope` item to the `parts` 
 The actual source code for the chip lives in [src/main.c](https://github.com/rozw-m/Wokwi-Chip-pJK/blob/main/src/main.c), and the pins are described in [chip.json](https://github.com/rozw-m/Wokwi-Chip-pJK/blob/main/chip.json).
 
 ## Example of usage
-An example [WokWi project](https://wokwi.com/projects/436091682196462593) using this chip.
+An example [WokWi project]((https://wokwi.com/projects/436449093906557953) using this chip.
